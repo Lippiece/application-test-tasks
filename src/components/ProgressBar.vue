@@ -7,18 +7,22 @@ import IconWarning from "./icons/IconWarning.vue"
 
 export type ProgressStatus = "error" | "progress" | "success" | "warning"
 
-const { status = "progress", type = "default" } = defineProps<{
-  status?: ProgressStatus
-  type?  : "dashboard" | "default"
+const {
+  dynamicHue = false,
+  status = "progress",
+  type = "default",
+} = defineProps<{
+  dynamicHue?: boolean
+  status?    : ProgressStatus
+  type?      : "dashboard" | "default"
 }>()
 
-const colors         = {
+const colors = {
   error   : "#ff4747",
   progress: "#20a0ff",
   success : "#12ce66",
   warning : "#e7a23d",
 } as const
-const progressStroke = computed(() => colors[status])
 
 const statusIcons = shallowRef({
   error  : IconError,
@@ -26,10 +30,17 @@ const statusIcons = shallowRef({
   warning: IconWarning,
 })
 
-const progress = defineModel<string>({ default: "0" })
-
+const progress        = defineModel<string>({ default: "0" })
 const progressPercent = computed(() => Number(progress.value) / 100)
+const progressStroke  = computed(() => {
+  if (dynamicHue) {
+    const hue = progressPercent.value * 120
 
+    return `hsl(${hue}, 100%, 50%)`
+  }
+
+  return colors[status]
+})
 const defaultBackground = useTemplateRef<SVGCircleElement>("default-background")
 const radius            = ref(90)
 const gapAngle          = ref(60)

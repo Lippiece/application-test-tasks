@@ -9,6 +9,7 @@ const progress = ref("0")
 const status   = ref<ProgressStatus>("progress")
 
 const isDashboard = ref(false)
+const dynamicHue  = ref(false)
 </script>
 
 <template>
@@ -22,6 +23,7 @@ const isDashboard = ref(false)
         v-model="progress"
         :status="status"
         :type="isDashboard ? 'dashboard' : 'default'"
+        :dynamic-hue="dynamicHue"
       />
 
       <label class="flex flex-col items-center gap-2">
@@ -33,9 +35,7 @@ const isDashboard = ref(false)
 
       </label>
 
-      <label
-        class="flex flex-col items-center gap-2 dark:text-white *:dark:bg-zinc-900 *:dark:text-white"
-      >
+      <label class="flex flex-col items-center gap-2 *:dark:bg-zinc-900">
         Статус
         <select
           v-model="status"
@@ -75,9 +75,18 @@ const isDashboard = ref(false)
           </p>
         </div>
 
-        <p class="dark:text-white">
+        <p>
           Это непонятное условие, ведь цвет меняется в зависимости от статуса.
         </p>
+
+        <label class="flex items-center gap-2">
+          Вариант реализации
+          <input
+            v-model="dynamicHue"
+            type="checkbox"
+          >
+
+        </label>
       </section>
     </article>
   </div>
