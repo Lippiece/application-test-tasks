@@ -14,9 +14,12 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@ckpack/vue-color": "^1.6.0",
     "@tailwindcss/vite": "^4.1.12",
+    "chart.js": "^4.5.0",
     "tailwindcss": "^4.1.12",
     "vue": "^3.5.18",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {

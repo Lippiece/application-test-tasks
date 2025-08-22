@@ -15,13 +15,26 @@ import HelloWorld from "./components/HelloWorld.vue"
     <div class="wrapper dark:text-(--vt-c-text-dark-1)">
       <HelloWorld msg="Тестовые задания для вакансий" />
 
-      <nav>
+      <nav class="flex gap-2">
         <RouterLink to="/">
           Home
         </RouterLink>
 
-        <RouterLink to="/DimaTech">
+        <RouterLink to="/dimatech">
           DimaTech
+        </RouterLink>
+      </nav>
+
+      <nav
+        v-if="$route.meta?.children"
+        class="flex flex-col gap-2"
+      >
+        <RouterLink
+          v-for="{ to, name } in $route.meta.children"
+          :key="to"
+          :to="to"
+        >
+          {{ name }}
         </RouterLink>
       </nav>
     </div>
@@ -59,7 +72,6 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
 }
 
 nav a:first-of-type {
