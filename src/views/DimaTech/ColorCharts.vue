@@ -73,6 +73,10 @@ const deleteItem = (index: number) => {
 
 <template>
   <main class="container flex flex-col items-center gap-4 py-8">
+    <h1 class="text-xl">
+      Круговая диаграмма
+    </h1>
+
     <section class="flex w-full flex-col items-stretch gap-2 lg:w-1/2">
       <ol class="flex flex-col items-stretch gap-2">
         <li
