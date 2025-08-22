@@ -35,6 +35,7 @@ const editData     = reactive<{
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 const editModal = useTemplateRef<HTMLDialogElement>("edit-modal")
+const form      = useTemplateRef<HTMLFormElement>("form")
 
 watch(currentIndex, current => {
   const [dataset] = chartData.datasets
@@ -77,7 +78,9 @@ const deleteItem = (index: number) => {
       Круговая диаграмма
     </h1>
 
-    <section class="flex w-full flex-col items-stretch gap-2 lg:w-1/2">
+    <section
+      class="flex w-full flex-col items-stretch gap-2 lg:w-1/2 dark:text-gray-200"
+    >
       <ol class="flex flex-col items-stretch gap-2">
         <li
           v-for="(sector, index) in chartData.datasets[0].data"
@@ -108,6 +111,7 @@ const deleteItem = (index: number) => {
           <div class="flex items-center gap-5">
             <button
               type="button"
+              title="Редактировать"
               class="cursor-pointer"
               @click="
                 () => {
@@ -121,6 +125,7 @@ const deleteItem = (index: number) => {
 
             <button
               type="button"
+              title="Удалить"
               class="cursor-pointer"
               @click="deleteItem(index)"
             >
@@ -132,7 +137,7 @@ const deleteItem = (index: number) => {
 
       <button
         type="button"
-        class="w-full cursor-pointer rounded-[10px] bg-[#1B84FF] px-9 py-4.5 text-white"
+        class="w-full cursor-pointer rounded-[10px] bg-[#1B84FF] px-9 py-4.5 dark:bg-[#1B84FF]/50 dark:text-white"
         @click="editModal?.showModal()"
       >
         Добавить сектор
@@ -154,6 +159,7 @@ ${chartData.labels?.[currentIndex]}`
         </p>
 
         <form
+          ref="form"
           method="dialog"
           class="flex flex-col items-stretch gap-5"
         >
@@ -178,6 +184,8 @@ ${chartData.labels?.[currentIndex]}`
               v-model="editData.value"
               required
               type="text"
+              inputmode="numeric"
+              pattern="\d*"
               class="border-none text-base text-[#252F4A] outline-none dark:text-white"
             >
 
@@ -193,6 +201,8 @@ ${chartData.labels?.[currentIndex]}`
             type="submit"
             @click="
               () => {
+                if (!form?.checkValidity()) return
+
                 const [dataset] = chartData.datasets
 
                 if (typeof currentIndex === 'number') {
